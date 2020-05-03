@@ -5,70 +5,146 @@
 #ifndef AES_AES_H
 #define AES_AES_H
 
-
-class AES
-{
+class AES {
 private:
-    int Nb;
-    int Nk;
-    int Nr;
+    int Nb; // Шифрлэх өгөгдлийн хэнэд үг байхийг заана үг нь 4 байт AES-д Nb = 4 байдаг.
+    int Nk; // Шифлэлтэнд ашиглагдах түлхүүрийн хэдэн үг хэмжээтэй байхийг заана. Nk = 4, 6, 8 байдаг.
+    int Nr; // Шифрлэлтэнд олон үеээр шифлэдэг бөгөөд түүний хэдэн удаа хийхийг заадаг энэ нь 10 12 14 байдаг.
 
-    unsigned int blockBytesLen;
-
+    /*!
+     * Ширлэгдэж буй хүснэгтийн байт бүрийг S_Box хүснэгтийн харгалзах байтаар солих үйлдэл хийнэ.
+     * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэгт байна.
+     */
     void SubBytes(unsigned char **state);
 
-    void ShiftRow(unsigned char **state, int i, int n);    // shift row i on n positions
+    /*!
+     * Өгөгдсөн мөрийг өгөгдсөн тоогоор зүүн цикл шилжүүлэлт хийнэ.
+     * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэг байна.
+     * @param i өггөдлийн мөрийн дугаар
+     * @param n тухайн мөрийг хэдэн удаа зүүн цикл хийхийг заана.
+     */
+    void ShiftRow(unsigned char **state, int i, int n);
 
+    /*!
+     * Ширлэгдэж буй хүснэгтийн мөр бүрийг харгалзах тооны дагуу зүүн цикл шилжүүлэлт хийнэ.
+     * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэг байна.
+     */
     void ShiftRows(unsigned char **state);
 
-    unsigned char xtime(unsigned char b);    // multiply on x
+    /*!
+     * Байтийг байтаар үржүүлхэд ашиглагдах бөгөөд өгөгдсөн m(x) = x^8 + x^4 + x^3 + x + 1  олон гишүүнтэд модулчлан x-ээр үржих үйлдэл хийнэ.
+     * @param b үржигдэх байт байна.
+     * @return өгөгдсөн байтийг x-ээр үржүүлээд гарах байт байна
+     */
+    unsigned char xtime(unsigned char b);
 
-    unsigned char mul_bytes(unsigned char a, unsigned char b);
+    /*!
+     * байтийг байтаар үржих үйлдэлийг алгоритмд буулгасан хэлбэр энэ нь GF(x^8) талбарын хувьд тодорхойлсон болно.
+     * @param a эхний байт
+     * @param b дараагийн байт
+     * @return хоёр байтийн үржвэр байт байна.
+     */
+    unsigned char muliBytes(unsigned char a, unsigned char b);
 
+    /*!
+     * Ширлэгдэж буй хүснэгтийн багана бүрийг c(x) = '03'x^3 + '01'x^2+ '01'x + '02' олон гишүүнтээр үржүүлэх үйлдэлийг GF(x^8) талбарын хувьд тодорхойлсон болно.
+     * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэг байна.
+     */
     void MixColumns(unsigned char **state);
 
-    void AddRoundKey(unsigned char **state, unsigned char *key);
+    /*!
+     * Шифрлэгдэж буй өгөгдөл дээр тухайн үеийн түлхүүрийг нэмэх үйлдэл хийнэ.
+     * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэг байна
+     * @param roundKey тухайн үеийн түлхүүр.
+     */
+    void AddRoundKey(unsigned char **state, unsigned char *roundKey);
 
-    void SubWord(unsigned char *a);
+    /*!
+     * Үг хэмжээтэй буюу 4 байтийн хувьд S_Box хүснэгтийг ашиглан харгалзах байтаар солих үйлдэл хийнэ.
+     * @param word 4 байт хүснэгт байна.
+     */
+    void SubWord(unsigned char *word);
 
-    void RotWord(unsigned char *a);
+    /*!
+     * Үг хэмжээтэй буюу 4 байтийн хувьд зүүн цикл шилжүүлэлтийг нэг удаа хийнэ.
+     * @param word шилүүлэлт хийх 4 байт хүснэгт
+     */
+    void RotWord(unsigned char *word);
 
-    void XorWords(unsigned char *a, unsigned char *b, unsigned char *c);
+    /*!
+     * Үг хэмжээтэй буюу 4 байт 2 үгийг хооронд нь XOR үйлэдийг хийнэ.
+     * @param firstWord XOR хийх энхий дох 4 байт хүснэгт
+     * @param secondWord XOR хийх 2 дох үг 4 байт хүснэгт
+     * @param resultWord үр дүн 4 байт хүснэгт
+     */
+    void XorWords(unsigned char *firstWord, unsigned char *secondWord, unsigned char *resultWord);
 
-    void Rcon(unsigned char * a, int n);
+    /*!
+     * Түлхүүр өгөтгөх үед ашиглагдах бөгөөд  GF(x^8) талбарын хувьд тогтмол тоонууд байдаг.
+     * @param rcon тухайн тогтмолыг хадгална
+     * @param n тухайн тогтмолын хэддэх тогтмолыг авхыг заана.
+     */
+    void Rcon(unsigned char *rcon, int n);
 
+    /*!
+     * Шифрлэлтийг тайлах үед ажиглагдах бөгөөд шифрлэгдсэн хүснэгтийн байт бүрийг Inv_S_Box хүснэгтийн харгалзах байтаар солих үйлдэл хийнэ.
+     * @param state шифрлэгдсэн өгөгдөл буюу 2 хэмжээст хүснэгт байна.
+     */
     void InvSubBytes(unsigned char **state);
 
+    /*!
+     * Шифрлэгдсэн хүснэгтийн багана бүрийг d(x) = '0B'x^3 + '0D'x^2+ '09'x + '0E' олон гишүүнтээр үржүүлэх үйлдэлийг GF(x^8) талбарын хувьд тодорхойлсон болно.
+     * d(x) нь c(x) олон гишүүнтийн урвуу буюу с(x)^(-1) байна энэ нь багана холих үйлдэлийн урвуу үйлдэл болж өгдөг.
+     * @param state шифрлэгдсэн өгөгдөл буюу 2 хэмжээст хүснэг байна.
+     */
     void InvMixColumns(unsigned char **state);
 
+    /*!
+     * Ширлэгдсэн хүснэгтийн мөр бүрийг харгалзах тооны дагуу зүүн цикл шилжүүлэлт хийнэ.Энэ нь шифрлэх явцад хийсэн үйлдэлийн эсрэг үйлдэл байна.
+     * @param state шифрлэгдсэн өгөгдөл буюу 2 хэмжээст хүснэг байна.
+     */
     void InvShiftRows(unsigned char **state);
 
-    unsigned char* PaddingNulls(unsigned char in[], unsigned int inLen, unsigned int alignLen);
+    /*!
+     * Шифрлэгдэх гэж байгаа өгөгдлийг 16 байт урттай болгох зорилготой уг өгөгдөлийг 16 бит болгохдоо хоосон утгаар дүүргэх үйлдэл хийнэ
+     * @param in Ширлэгдэх гэж байга өгөгдөл
+     * @return 16 байт хэмжээтэй шифрлэхэд бэлэн болсон хүснэгт
+     */
+    unsigned char *PaddingNulls(unsigned char in[]);
 
-    unsigned int GetPaddingLength(unsigned int len);
+    /*!
+     * Анхны өгсөн түлхүүрийн тусламжтай үе бүрт ашиглагдах түлхүүрийг гарган авна.
+     * @param chiperKey Анхны түлхүүр.
+     * @param ExpandedKey NR+1 түлхүүрийг хадгална энд үе бүрт ашиглагдах түлхүүр байна.
+     */
+    void KeyExpansion(unsigned char chiperKey[], unsigned char ExpandedKey[]);
 
-    void KeyExpansion(unsigned char key[], unsigned char w[]);
+    /*!
+     * Өгөгдлийг шифрлэх үйл ажиллагааг хийнэ.
+     * @param in шифрлэгдэх өгөгдөл
+     * @param out шифрлэсэн өгөгдөл
+     * @param chiperKey дундын түлхүүр
+     */
+    void EncryptBlock(unsigned char in[], unsigned char out[], unsigned char chiperKey[]);
 
-    void EncryptBlock(unsigned char in[], unsigned char out[], unsigned  char key[]);
 
-    void DecryptBlock(unsigned char in[], unsigned char out[], unsigned  char key[]);
-
-    void XorBlocks(unsigned char *a, unsigned char * b, unsigned char *c, unsigned int len);
+    void DecryptBlock(unsigned char in[], unsigned char out[], unsigned char chiperKey[]);
 
 public:
+
     AES(int keyLen = 256);
 
-    unsigned char *EncryptECB(unsigned char in[], unsigned int inLen, unsigned  char key[], unsigned int &outLen);
+    unsigned char *EncryptECB(unsigned char in[], unsigned int inLen, unsigned char chiperKey[], unsigned int &outLen);
 
-    unsigned char *DecryptECB(unsigned char in[], unsigned int inLen, unsigned  char key[]);
+    unsigned char *DecryptECB(unsigned char in[], unsigned int inLen, unsigned char chiperKey[]);
 
-
-
-    void printHexArray (unsigned char a[], unsigned int n);
-
+    void printHexArray(unsigned char a[], unsigned int n);
 
 };
 
+/*
+ * Байтийг байтаар солиход зориулагдсан хүснэгт
+ */
 const unsigned char sbox[16][16] = {
         0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5,
         0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
@@ -104,6 +180,9 @@ const unsigned char sbox[16][16] = {
         0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 };
 
+/*
+ * Байтийг байтаар солих үйлдлийн эсрэг үйлдэлд зориулагдсан хүснэгт
+ */
 const unsigned char inv_sbox[16][16] = {
         0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38,
         0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
@@ -136,6 +215,6 @@ const unsigned char inv_sbox[16][16] = {
         0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0,
         0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,
         0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26,
-        0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d, };
+        0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d,};
 
 #endif //AES_AES_H
