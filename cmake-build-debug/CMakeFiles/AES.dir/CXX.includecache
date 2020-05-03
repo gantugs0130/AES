@@ -6,15 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/home/gantugs/CLionProjects/AES/aes.cpp
-cstdio
+/home/gantugs/CLionProjects/AES/aes.h
+
+/home/gantugs/CLionProjects/AES/main.cpp
+iostream
 -
-cstring
+iomanip
 -
 aes.h
-/home/gantugs/CLionProjects/AES/aes.h
-iostream
-/home/gantugs/CLionProjects/AES/iostream
-
 /home/gantugs/CLionProjects/AES/aes.h
 
