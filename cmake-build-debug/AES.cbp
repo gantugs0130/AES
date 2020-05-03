@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/home/gantugs/CLionProjects/AES/aes.cpp">
+			<Option target="AES"/>
+		</Unit>
+		<Unit filename="/home/gantugs/CLionProjects/AES/aes.h">
+			<Option target="AES"/>
+		</Unit>
 		<Unit filename="/home/gantugs/CLionProjects/AES/main.cpp">
 			<Option target="AES"/>
 		</Unit>

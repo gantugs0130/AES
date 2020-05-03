@@ -123,6 +123,33 @@ AES/fast:
 	$(MAKE) -f CMakeFiles/AES.dir/build.make CMakeFiles/AES.dir/build
 .PHONY : AES/fast
 
+aes.o: aes.cpp.o
+
+.PHONY : aes.o
+
+# target to build an object file
+aes.cpp.o:
+	$(MAKE) -f CMakeFiles/AES.dir/build.make CMakeFiles/AES.dir/aes.cpp.o
+.PHONY : aes.cpp.o
+
+aes.i: aes.cpp.i
+
+.PHONY : aes.i
+
+# target to preprocess a source file
+aes.cpp.i:
+	$(MAKE) -f CMakeFiles/AES.dir/build.make CMakeFiles/AES.dir/aes.cpp.i
+.PHONY : aes.cpp.i
+
+aes.s: aes.cpp.s
+
+.PHONY : aes.s
+
+# target to generate assembly for a file
+aes.cpp.s:
+	$(MAKE) -f CMakeFiles/AES.dir/build.make CMakeFiles/AES.dir/aes.cpp.s
+.PHONY : aes.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... AES"
+	@echo "... aes.o"
+	@echo "... aes.i"
+	@echo "... aes.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

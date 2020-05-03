@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "AES"
   "AES.pdb"
+  "CMakeFiles/AES.dir/aes.cpp.o"
   "CMakeFiles/AES.dir/main.cpp.o"
 )
 

@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gantugs/CLionProjects/AES/aes.cpp
+cstdio
+-
+cstring
+-
+aes.h
+/home/gantugs/CLionProjects/AES/aes.h
+iostream
+/home/gantugs/CLionProjects/AES/iostream
+
+/home/gantugs/CLionProjects/AES/aes.h
+
