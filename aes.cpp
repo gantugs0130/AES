@@ -55,9 +55,9 @@ unsigned char *AES::SetNulls(unsigned char inputText[], int inputSize) {
 
 void AES::EncryptBlock(unsigned char plainText[], unsigned char cipherText[], unsigned char key[]) {
     /// Үе бүрт ашиглах түлхүүрийг хадгалах хүснэгт
-    unsigned char *ExpandedKey = new unsigned char[4 * Nb * (Nr + 1)];
+    unsigned char *expandedKey = new unsigned char[4 * Nb * (Nr + 1)];
     /// Анхны түлхүүрээс бусад түлхүүрийг үүсгэн үйлдлийг хийж байна.
-    KeyExpansion(key, ExpandedKey);
+    KeyExpansion(key, expandedKey);
     /// Шифрлэх текстийг шифрлэлтийн явцад 2 хэмжээст хүснэгтэнд хадгалах хүснэгт цаашид state гэж байвал бүгд шифрлэлтийн явцад байгаа текст гэж ойлгоно.
     unsigned char **state = new unsigned char *[4];
     /// Хүснэгтйиг 4 x Nb хэлбэрийн хүснэгт болгон хаягийн зохицуулалт хийж байна.
@@ -80,7 +80,7 @@ void AES::EncryptBlock(unsigned char plainText[], unsigned char cipherText[], un
         }
     }
     /// state д хамгийн эхний түлхүүрийг нэмэх үйлдлийг хииж байна.
-    AddRoundKey(state, ExpandedKey);
+    AddRoundKey(state, expandedKey);
 
     /**
      * Нийт Nr үеийн турж шифрлэх үйл явц хийгдэх боловч сүүлийн үе нь бусдаасаа өөр байдаг
@@ -94,14 +94,14 @@ void AES::EncryptBlock(unsigned char plainText[], unsigned char cipherText[], un
         /// Багана холих үйлдэл
         MixColumns(state);
         /// Тухайн үеийн түлхүүрийг нэмэх үйлдэл
-        AddRoundKey(state, ExpandedKey + round * 4 * Nb);
+        AddRoundKey(state, expandedKey + round * 4 * Nb);
     }
     ///Сүүлийн удаа байтийг байтаар солих үйлдэл хийнэ.
     SubBytes(state);
     ///Сүүлийн удаа мөр шилжүүлэх үйлдэл хийнэ.
     ShiftRows(state);
     ///Сүүлийн үеийн түлхүүрийг нэмж өгнө.
-    AddRoundKey(state, ExpandedKey + Nr * 4 * Nb);
+    AddRoundKey(state, expandedKey + Nr * 4 * Nb);
 
     /**
      * Шифрлэгдсэн хүснэгтийг шифрлэсэн текс буюу нэг хэмжээс хүснэгт болгож байна
@@ -115,10 +115,10 @@ void AES::EncryptBlock(unsigned char plainText[], unsigned char cipherText[], un
     /// санах ойгоо цэвэрлэж байна.
     delete[] state[0];
     delete[] state;
-    delete[] ExpandedKey;
+    delete[] expandedKey;
 }
 
-void AES::KeyExpansion(unsigned char cipherKey[], unsigned char ExpandedKey[]) {
+void AES::KeyExpansion(unsigned char cipherKey[], unsigned char expandedKey[]) {
     /// 4 байт хүснэгтүүд дээр үйлдэл хийх бөгөөд түүнийг түр хадгалах хүснэгт.
     unsigned char *tempWord = new unsigned char[4];
     /// GF(2^8) талбарт ашиглагдах тогтмол утгыг хадгалах хүснэгт.
@@ -127,17 +127,17 @@ void AES::KeyExpansion(unsigned char cipherKey[], unsigned char ExpandedKey[]) {
     /// Өргөтгөсөн түлхүүрийн үүсгэхдээ эхлээд өгөгдсөн түлхүүрийг хуулж оноож өгнө.
     /// Өргөтгөсөн түлхүүрийн 4Nr байт болгон нэг үеийн түлхүүр байна.
     for (int j = 0; j < 4 * Nk; ++j) {
-        ExpandedKey[j] = cipherKey[j];
+        expandedKey[j] = cipherKey[j];
     }
     /// 4Nk аас хойших байтуудыг үүсгэнэ.
     int i = 4 * Nk;
     while (i < 4 * Nb * (Nr + 1)) {
         /// Өргөтгөсөн түлхүүрийн сүүлийн 4 байт дээр үйлдлийг хйиж дараагийн 4 байтыг үүсгэнэ
         /// тус 4 байтыг хүснэгт болгон түр хадгалж авна одоо үүн дээр үйлдэл хийнэ.
-        tempWord[0] = ExpandedKey[i - 4 + 0];
-        tempWord[1] = ExpandedKey[i - 4 + 1];
-        tempWord[2] = ExpandedKey[i - 4 + 2];
-        tempWord[3] = ExpandedKey[i - 4 + 3];
+        tempWord[0] = expandedKey[i - 4 + 0];
+        tempWord[1] = expandedKey[i - 4 + 1];
+        tempWord[2] = expandedKey[i - 4 + 2];
+        tempWord[3] = expandedKey[i - 4 + 3];
         /**
          * Энд Өргөтгөсөн түлхүүрийг үүсгэхдээ үндсэн түлхүүрийг ашиглахын тулд Nk байт байтаар нь дараагын Nk байтыг үүсгэдэг
          * Дараагын Nk байтруу шилжиж байвал Үг эргүүлэх, байтыг байтаар солих, Тогтмол утгаар XOR хийх үйлдэлүүдийг хийнэ.
@@ -159,10 +159,10 @@ void AES::KeyExpansion(unsigned char cipherKey[], unsigned char ExpandedKey[]) {
         /**
          * Тухайн цикл эхлээгүй үед өмнөх 4 байтыг авч мөн түүнд харгалзах өмнөх циклийн 4 байтыг авч хооронд нь XOR үйлдэлийг хийж гарган авна.
          * */
-        ExpandedKey[i + 0] = ExpandedKey[i - 4 * Nk] ^ tempWord[0];
-        ExpandedKey[i + 1] = ExpandedKey[i + 1 - 4 * Nk] ^ tempWord[1];
-        ExpandedKey[i + 2] = ExpandedKey[i + 2 - 4 * Nk] ^ tempWord[2];
-        ExpandedKey[i + 3] = ExpandedKey[i + 3 - 4 * Nk] ^ tempWord[3];
+        expandedKey[i + 0] = expandedKey[i - 4 * Nk] ^ tempWord[0];
+        expandedKey[i + 1] = expandedKey[i + 1 - 4 * Nk] ^ tempWord[1];
+        expandedKey[i + 2] = expandedKey[i + 2 - 4 * Nk] ^ tempWord[2];
+        expandedKey[i + 3] = expandedKey[i + 3 - 4 * Nk] ^ tempWord[3];
         /// дараагын 4 байтруу шилжнэ.
         i += 4;
     }
@@ -265,21 +265,81 @@ unsigned char AES::multiplyBytes(unsigned char firstByte, unsigned char secondBy
 }
 
 void AES::MixColumns(unsigned char **state) {
-    /// Багана холих үйлдэлд
+    /// Багана холих үйлдэлд тухайн баганыг хадгалах s тухайн багана дээр үйлдэл хийж түр хадгалах tempColumn хэрэгтэй.
     unsigned char s[4], tempColumn[4];
+    /// Баганууд бүрээр давтан үйлдэл хийнэ.
     for (int j = 0; j < Nb; j++) {
+        /// тухайн баганы мөр бүрээр давтан нэг багана буюу нэг хэмжээст 4 байт хүснэгт үүсгэнэ.
         for (int i = 0; i < 4; i++) {
             s[i] = state[i][j];
         }
+        /**
+         * Тухайн баганыг GF(2^8) талбарт тогтмолоор үржих үйлдлийг хийнэ.
+         * Энэ нь матриц үржих үйлдэл бөгөөд мөр бүрийг нь харгалзан тогтмол байтуудаар үржүүлж үр дүнг хадаглж авна
+         * */
         tempColumn[0] = multiplyBytes(0x02, s[0]) ^ multiplyBytes(0x03, s[1]) ^ s[2] ^ s[3];
         tempColumn[1] = s[0] ^ multiplyBytes(0x02, s[1]) ^ multiplyBytes(0x03, s[2]) ^ s[3];
         tempColumn[2] = s[0] ^ s[1] ^ multiplyBytes(0x02, s[2]) ^ multiplyBytes(0x03, s[3]);
         tempColumn[3] = multiplyBytes(0x03, s[0]) ^ s[1] ^ s[2] ^ multiplyBytes(0x02, s[3]);
         for (int i = 0; i < 4; i++) {
+            /// Гарсан үр дүнг анхны хүснэгтэнд оноож өгнө
             state[i][j] = tempColumn[i];
         }
     }
 }
+
+void AES::AddRoundKey(unsigned char **state, unsigned char *roundKey) {
+    /// хүснэгтийн байт бүр дээр тухайн үеийн түлхүүрийн утгыг харгалзуулан нэмэх буюу XOR үйлдлйиг хийнэ.
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < Nb; j++) {
+            /// байт бүр дээр харгалзар түлхүүрийн байтийг нэмж байна.
+            state[i][j] = state[i][j] ^ roundKey[i + 4 * j];
+        }
+    }
+}
+
+
+void AES::SubWord(unsigned char *word) {
+    /// Үг буюу 4 байт хүснэгтийн байт бүрийг S-Box хүснэгтийн харгалзах байтаар солих үйлдэл.
+    for (int i = 0; i < 4; i++) {
+        word[i] = sbox[word[i] / 16][word[i] % 16];
+    }
+}
+
+void AES::RotWord(unsigned char *word) {
+    /// Үг буюу 4 байт хүснэгтийг зүүн цикл шилжүүлэлт хийх үйлдэл
+    /// Эхний байтыг хадгалж авна.
+    unsigned char tempByte = word[0];
+    /// Нэг байт зүүн шилжүүлэлт хийнэ.
+    word[0] = word[1];
+    word[1] = word[2];
+    word[2] = word[3];
+    /// Цикл шилжүүлэлт болгоно.
+    word[3] = tempByte;
+}
+
+void AES::XorWords(unsigned char *firstWord, unsigned char *secondWord, unsigned char *resultWord) {
+    /// Үг буюу 4 байт firstWord, secondWord хүснэгтүүдийн хооронд нь XOR үйлдэл хийж хариуг resultWord д хадгална.
+    for (int i = 0; i < 4; i++) {
+        /// байт бүрээр XOR үйлдлийг хийж гүйцэтгэнэ.
+        resultWord[i] = firstWord[i] ^ secondWord[i];
+    }
+}
+
+void AES::Rcon(unsigned char *rcon, int n) {
+    /// Багана холих үед ашиглагдах тогтмол утгыг гаргаж авна энэ нь (x 0 0 0) хүснэгт байдаг.
+    unsigned char temp = 1;
+    /// Хэд дэх тогтмолыг авах гэж байгаагаар давтан тооцоолдог.
+    for (int i = 0; i < n - 1; i++) {
+        /// давталт бүр дээр байтыг x ээр үржүүлэх үйлдлийг GF(2^8) талбарт хийдэг.
+        temp = xtime(temp);
+    }
+
+    /// Тогтмолоо үүсгэж байна.
+    rcon[0] = temp;
+    rcon[1] = rcon[2] = rcon[3] = 0;
+}
+
 
 unsigned char *AES::DecryptECB(unsigned char encryptedText[], unsigned char cipherKey[], int outSize) {
     ///Шифрлэлтийг тайлаад хадгалах хүснэгт.
@@ -292,95 +352,59 @@ unsigned char *AES::DecryptECB(unsigned char encryptedText[], unsigned char ciph
     return inputText;
 }
 
-void AES::DecryptBlock(unsigned char in[], unsigned char out[], unsigned char key[]) {
-    unsigned char *w = new unsigned char[4 * Nb * (Nr + 1)];
-    KeyExpansion(key, w);
+void AES::DecryptBlock(unsigned char in[], unsigned char out[], unsigned char cipherKey[]) {
+    /// Шифрлэлтийг тайлах үйлдэл гүйцэтгэхдээ мөн адил түлхүүр шиглах бөгөөд өргөтгөсөн түлхүүр мөн адилхан байна.
+    unsigned char *expandedKey = new unsigned char[4 * Nb * (Nr + 1)];
+    /// Өргөтгөсөн түлхүүрээ үүсгэнэ.
+    KeyExpansion(cipherKey, expandedKey);
+    /// Шифрлэлтийг тайлахдаа мөн адил 16 байт буюу 4x4 хүснэгт ашиглан тайлна.
     unsigned char **state = new unsigned char *[4];
     state[0] = new unsigned char[4 * Nb];
-    int i, j, round;
-    for (i = 0; i < 4; i++) {
+    for (int  i = 0; i < 4; i++) {
         state[i] = state[0] + Nb * i;
     }
-
-
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < Nb; j++) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < Nb; j++) {
             state[i][j] = in[i + 4 * j];
         }
     }
-
-    AddRoundKey(state, w + Nr * 4 * Nb);
-
-    for (round = Nr - 1; round >= 1; round--) {
-        InvSubBytes(state);
-        InvShiftRows(state);
-        AddRoundKey(state, w + round * 4 * Nb);
-        InvMixColumns(state);
-    }
-
-    InvSubBytes(state);
+    /// Сүүлийн түлхүүрийг нэмэх үйлдэл гүйцэтгэнэ энэ нь шифрлэлтийн явцад хамгийн сүүлд
+    /// нэмсэн түлхүүр байсан бөгөөд 2 т модулчлан нэмэх үйлдэл учир өмнөх үр дүн үүснэ гэж үзэж болно.
+    AddRoundKey(state, expandedKey + Nr * 4 * Nb);
+    /// Шифрлэлтийн үед хийгдсэн үйлдлийг сүүлийн үеээс нь эхэлж эсрэг үйлдэлийг хийнэ.
+    /// Мөр шилжүүлэх үйлдлийн эсрэг үйлдэл энэ нь харгалзан 0 3 2 1 байт зүүн цикцл шилжүүлэлт хийнэ гэнсэн үг хамгийн сүүлд хийгдсэн мөр шилжүүлэлт
     InvShiftRows(state);
-    AddRoundKey(state, w);
-
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < Nb; j++) {
+    /// Inv-S-Box буюу хувиргалтын эсрэг үр дүнг хадгалах хүснэгтийг ашиглан эхний үр дүнг гарган авах. Хамгийн сүүлд хийсэн байтийг байтаар солих үйлдэлийн эсрэг
+    InvSubBytes(state);
+    /// Үе бүрт хийгдсэн үйлдлийн эсрэгээр нь эргүүлж үйллдлүүдийг хийнэ.
+    for (int round = Nr - 1; round >= 1; round--) {
+        /// Үеийн түлхүүрийг нэмнэ түлхүүрийн утгыг араас нь эхлэн авч байгаа.
+        AddRoundKey(state, expandedKey + round * 4 * Nb);
+        /// Багана холих үйлдлийн эсрэг үйлдэл буюу багана бүрийг үржүүлэх тогтмолыг эсэргээр нь сонгон авна.
+        InvMixColumns(state);
+        /// Мөр шилжүүлэх үйлдлийн эсрэг үйлдэл энэ нь харгалзан 0 3 2 1 байт зүүн цикцл шилжүүлэлт хийнэ гэнсэн үг
+        InvShiftRows(state);
+        /// Үе бүрт Inv-S-Box буюу хувиргалтын эсрэг үр дүнг хадгалах хүснэгтийг ашиглан эхний үр дүнг гарган авах.
+        InvSubBytes(state);
+    }
+    /// Хамгийн эхэнд нэмсэн түлхүүрээ нэмж өгнө.
+    AddRoundKey(state, expandedKey);
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < Nb; j++) {
             out[i + 4 * j] = state[i][j];
         }
     }
 
     delete[] state[0];
     delete[] state;
-    delete[] w;
+    delete[] expandedKey;
 }
-
-void AES::AddRoundKey(unsigned char **state, unsigned char *roundKey) {
-    int i, j;
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < Nb; j++) {
-            state[i][j] = state[i][j] ^ roundKey[i + 4 * j];
-        }
-    }
-}
-
-void AES::SubWord(unsigned char *word) {
-    int i;
-    for (i = 0; i < 4; i++) {
-        word[i] = sbox[word[i] / 16][word[i] % 16];
-    }
-}
-
-void AES::RotWord(unsigned char *word) {
-    unsigned char c = word[0];
-    word[0] = word[1];
-    word[1] = word[2];
-    word[2] = word[3];
-    word[3] = c;
-}
-
-void AES::XorWords(unsigned char *firstWord, unsigned char *secondWord, unsigned char *resultWord) {
-    int i;
-    for (i = 0; i < 4; i++) {
-        resultWord[i] = firstWord[i] ^ secondWord[i];
-    }
-}
-
-void AES::Rcon(unsigned char *rcon, int n) {
-    int i;
-    unsigned char c = 1;
-    for (i = 0; i < n - 1; i++) {
-        c = xtime(c);
-    }
-
-    rcon[0] = c;
-    rcon[1] = rcon[2] = rcon[3] = 0;
-}
-
 
 void AES::InvSubBytes(unsigned char **state) {
-    int i, j;
     unsigned char t;
-    for (i = 0; i < 4; i++) {
-        for (j = 0; j < Nb; j++) {
+    /// байтийг байтаар солих үйлдлийг S-Box хүснэгтийн эсрэг үйлдлийг хийдэг Inv-S-Box хүснэгтийг ашиглаж гүйцэтгэнэ.
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < Nb; j++) {
             t = state[i][j];
             state[i][j] = inv_sbox[t / 16][t % 16];
         }
@@ -388,36 +412,37 @@ void AES::InvSubBytes(unsigned char **state) {
 }
 
 void AES::InvMixColumns(unsigned char **state) {
-    unsigned char s[4], s1[4];
-    int i, j;
-
-    for (j = 0; j < Nb; j++) {
-        for (i = 0; i < 4; i++) {
+    unsigned char s[4], tempWord[4];
+    /// Багана холих үйлдлийг d(x) = '0B'x^3 + '0D'x^2+ '09'x + '0E' олон гишүүнтээр үржих үйлдлээр хийнэ.
+    for (int j = 0; j < Nb; j++) {
+        for (int i = 0; i < 4; i++) {
             s[i] = state[i][j];
         }
-        s1[0] = multiplyBytes(0x0e, s[0]) ^ multiplyBytes(0x0b, s[1]) ^ multiplyBytes(0x0d, s[2]) ^
+        tempWord[0] = multiplyBytes(0x0e, s[0]) ^ multiplyBytes(0x0b, s[1]) ^ multiplyBytes(0x0d, s[2]) ^
                 multiplyBytes(0x09, s[3]);
-        s1[1] = multiplyBytes(0x09, s[0]) ^ multiplyBytes(0x0e, s[1]) ^ multiplyBytes(0x0b, s[2]) ^
+        tempWord[1] = multiplyBytes(0x09, s[0]) ^ multiplyBytes(0x0e, s[1]) ^ multiplyBytes(0x0b, s[2]) ^
                 multiplyBytes(0x0d, s[3]);
-        s1[2] = multiplyBytes(0x0d, s[0]) ^ multiplyBytes(0x09, s[1]) ^ multiplyBytes(0x0e, s[2]) ^
+        tempWord[2] = multiplyBytes(0x0d, s[0]) ^ multiplyBytes(0x09, s[1]) ^ multiplyBytes(0x0e, s[2]) ^
                 multiplyBytes(0x0b, s[3]);
-        s1[3] = multiplyBytes(0x0b, s[0]) ^ multiplyBytes(0x0d, s[1]) ^ multiplyBytes(0x09, s[2]) ^
+        tempWord[3] = multiplyBytes(0x0b, s[0]) ^ multiplyBytes(0x0d, s[1]) ^ multiplyBytes(0x09, s[2]) ^
                 multiplyBytes(0x0e, s[3]);
 
-        for (i = 0; i < 4; i++) {
-            state[i][j] = s1[i];
+        for (int i = 0; i < 4; i++) {
+            state[i][j] = tempWord[i];
         }
     }
 }
 
 void AES::InvShiftRows(unsigned char **state) {
+    /// Мөр шилжүүлэх үйлдлийн эсрэг үйлдэл
     ShiftRow(state, 1, Nb - 1);
     ShiftRow(state, 2, Nb - 2);
     ShiftRow(state, 3, Nb - 3);
 }
 
-void AES::printHexArray(unsigned char a[], unsigned int n) {
-    for (int i = 0; i < n; i++) {
-        printf("%02x ", a[i]);
+void AES::printHexArray(unsigned char hexArray[], unsigned int arraySize) {
+    for (int i = 0; i < arraySize; i++) {
+        printf("%02x ", hexArray[i]);
     }
+    cout << "\n";
 }
