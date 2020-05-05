@@ -1,5 +1,7 @@
 #include <cstdio>
 #include <cstring>
+#include <string>
+#include <bitset>
 #include "aes.h"
 #include "iostream"
 
@@ -7,20 +9,8 @@ using namespace std;
 
 AES::AES(int chiperKeyLen) {
     this->Nb = 4;
-    switch (chiperKeyLen) {
-        case 128:
-            this->Nk = 4;
-            this->Nr = 10;
-            break;
-        case 192:
-            this->Nk = 6;
-            this->Nr = 12;
-            break;
-        case 256:
-            this->Nk = 8;
-            this->Nr = 14;
-            break;
-    }
+    this->Nk = chiperKeyLen / 32;
+    this->Nr = Nk + 6;
 }
 
 unsigned char *AES::EncryptECB(unsigned char inputText[], unsigned char key[], int inputSize) {
@@ -440,9 +430,17 @@ void AES::InvShiftRows(unsigned char **state) {
     ShiftRow(state, 3, Nb - 3);
 }
 
-void AES::printHexArray(unsigned char hexArray[], unsigned int arraySize) {
+void AES::printHexArray(unsigned char byteArray[], unsigned int arraySize, string name) {
+    cout <<  name + " hex value is : ";
     for (int i = 0; i < arraySize; i++) {
-        printf("%02x ", hexArray[i]);
+        printf("%02x ", byteArray[i]);
+    }
+    cout << "\n";
+}
+void AES::printBinaryArray(unsigned char byteArray[], unsigned int arraySize, string name) {
+    cout << name + " binary value is : ";
+    for (int i = 0; i < arraySize; i++) {
+        cout << bitset<8>(byteArray[i]).to_string() << " ";
     }
     cout << "\n";
 }

@@ -150,8 +150,8 @@ public:
      */
     unsigned char *DecryptECB(unsigned char encryptedText[], unsigned char cipherKey[], int outSize);
 
-    void printHexArray(unsigned char a[], unsigned int n);
-
+    void printHexArray(unsigned char a[], unsigned int n, std::string name);
+    void printBinaryArray(unsigned char a[], unsigned int n, std::string name);
 };
 
 /*
