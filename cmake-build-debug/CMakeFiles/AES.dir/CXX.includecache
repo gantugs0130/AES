@@ -13,6 +13,8 @@ iostream
 -
 fstream
 -
+cstring
+-
 aes.h
 /home/gantugs/CLionProjects/AES/aes.h
 

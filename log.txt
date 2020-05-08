@@ -1,0 +1,64 @@
+ 128 time millsecond = 857.361; total count = 199; total byte = 384317; avarage time  = 4.30835; avarage byte = 1931
+ 192 time millsecond = 1036.64; total count = 199; total byte = 384317; avarage time = 5.20926; avarage byte = 1931
+ 256 time millsecond = 1250.15; total count = 199; total byte = 384317; avarage time = 6.28216; avarage byte = 1931
+
+ 128 time millsecond = 917.316; total count = 999; total byte = 373883; avarage time  = 0.918234; avarage byte = 374
+ 192 time millsecond = 1117.25; total count = 999; total byte = 373883; avarage time = 1.11837; avarage byte = 374
+ 256 time millsecond = 1287.29; total count = 999; total byte = 373883; avarage time = 1.28858; avarage byte = 374
+
+ 128 time millsecond = 185.699; total count = 199; total byte = 74736; avarage time  = 0.933161; avarage byte = 375
+ 192 time millsecond = 224.598; total count = 199; total byte = 74736; avarage time = 1.12863; avarage byte = 375
+ 256 time millsecond = 264.178; total count = 199; total byte = 74736; avarage time = 1.32753; avarage byte = 375
+
+ 128 time millsecond = 187.014; total count = 100; total byte = 74736; avarage time  = 1.87014; avarage byte = 747
+ 192 time millsecond = 223.985; total count = 100; total byte = 74736; avarage time = 2.23985; avarage byte = 747
+ 256 time millsecond = 266.091; total count = 100; total byte = 74736; avarage time = 2.66091; avarage byte = 747
+
+ 128 time millsecond = 193.304; total count = 100; total byte = 79373; avarage time  = 1.93304; avarage byte = 793
+ 192 time millsecond = 228.839; total count = 100; total byte = 79373; avarage time = 2.28839; avarage byte = 793
+ 256 time millsecond = 273.261; total count = 100; total byte = 79373; avarage time = 2.73261; avarage byte = 793
+
+ 128 time millsecond = 123.177; total count = 70; total byte = 50888; avarage time  = 1.75967; avarage byte = 726
+ 192 time millsecond = 148.062; total count = 70; total byte = 50888; avarage time = 2.11517; avarage byte = 726
+ 256 time millsecond = 173.666; total count = 70; total byte = 50888; avarage time = 2.48094; avarage byte = 726
+
+ 128 time millsecond = 281.376; total count = 155; total byte = 117108; avarage time  = 1.81533; avarage byte = 755
+ 192 time millsecond = 344.122; total count = 155; total byte = 117108; avarage time = 2.22014; avarage byte = 755
+ 256 time millsecond = 400.384; total count = 155; total byte = 117108; avarage time = 2.58312; avarage byte = 755
+
+ 128 time millsecond = 319.221; total count = 180; total byte = 135547; avarage time  = 1.77345; avarage byte = 753
+ 192 time millsecond = 384.07; total count = 180; total byte = 135547; avarage time = 2.13372; avarage byte = 753
+ 256 time millsecond = 453.67; total count = 180; total byte = 135547; avarage time = 2.52039; avarage byte = 753
+
+ 128 time millsecond = 379.205; total count = 210; total byte = 155536; avarage time  = 1.80574; avarage byte = 740
+ 192 time millsecond = 458.306; total count = 210; total byte = 155536; avarage time = 2.18241; avarage byte = 740
+ 256 time millsecond = 540.683; total count = 210; total byte = 155536; avarage time = 2.57468; avarage byte = 740
+
+ 128 time millsecond = 541.516; total count = 300; total byte = 227198; avarage time  = 1.80505; avarage byte = 757
+ 192 time millsecond = 663.552; total count = 300; total byte = 227198; avarage time = 2.21184; avarage byte = 757
+ 256 time millsecond = 781.59; total count = 300; total byte = 227198; avarage time = 2.6053; avarage byte = 757
+
+ 128 time millsecond = 546.929; total count = 300; total byte = 228966; avarage time  = 1.8231; avarage byte = 763
+ 192 time millsecond = 665.353; total count = 300; total byte = 228966; avarage time = 2.21784; avarage byte = 763
+ 256 time millsecond = 783.282; total count = 300; total byte = 228966; avarage time = 2.61094; avarage byte = 763
+
+ 128 time millsecond = 548.471; total count = 300; total byte = 229675; avarage time  = 1.82824; avarage byte = 765
+ 192 time millsecond = 664.163; total count = 300; total byte = 229675; avarage time = 2.21388; avarage byte = 765
+ 256 time millsecond = 783.179; total count = 300; total byte = 229675; avarage time = 2.6106; avarage byte = 765
+
+ 128 time millsecond = 59.847; total count = 2; total byte = 30903; avarage time  = 29.9235; avarage byte = 15451
+ 192 time millsecond = 75.57; total count = 2; total byte = 30903; avarage time = 37.785; avarage byte = 15451
+ 256 time millsecond = 88.928; total count = 2; total byte = 30903; avarage time = 44.464; avarage byte = 15451
+
+ 128 time millsecond = 71.653; total count = 3; total byte = 36238; avarage time  = 23.8843; avarage byte = 12079
+ 192 time millsecond = 89.975; total count = 3; total byte = 36238; avarage time = 29.9917; avarage byte = 12079
+ 256 time millsecond = 108.394; total count = 3; total byte = 36238; avarage time = 36.1313; avarage byte = 12079
+
+ 128 time millsecond = 183.378; total count = 99; total byte = 75973; avarage time  = 1.8523; avarage byte = 767
+ 192 time millsecond = 218.868; total count = 99; total byte = 75973; avarage time = 2.21079; avarage byte = 767
+ 256 time millsecond = 260.085; total count = 99; total byte = 75973; avarage time = 2.62712; avarage byte = 767
+
+ 128 time millsecond = 44.156; total count = 51; total byte = 18678; avarage time  = 0.865804; avarage byte = 366
+ 192 time millsecond = 54.981; total count = 51; total byte = 18678; avarage time = 1.07806; avarage byte = 366
+ 256 time millsecond = 64.828; total count = 51; total byte = 18678; avarage time = 1.27114; avarage byte = 366
+

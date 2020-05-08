@@ -1,2 +1,6 @@
 NUM student
 128
+NUM student
+192
+NUM student
+256

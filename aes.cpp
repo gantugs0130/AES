@@ -13,6 +13,21 @@ AES::AES(int chiperKeyLen) {
     this->Nr = Nk + 6;
 }
 
+void AES::printHexArray(unsigned char byteArray[], unsigned int arraySize, string name) {
+    cout <<  name + " hex value is : ";
+    for (int i = 0; i < arraySize; i++) {
+        printf("%02x ", byteArray[i]);
+    }
+    cout << "\n";
+}
+void AES::printBinaryArray(unsigned char byteArray[], unsigned int arraySize, string name) {
+    cout << name + " binary value is : ";
+    for (int i = 0; i < arraySize; i++) {
+        cout << bitset<8>(byteArray[i]).to_string() << " ";
+    }
+    cout << "\n";
+}
+
 unsigned char *AES::EncryptECB(unsigned char inputText[], unsigned char key[], int inputSize) {
     /// Шифрлэгдсэн текст нь хэдэн байт мэдээлэл байх вэ гэдгийг олж байна. Энд шифр болгоны дараа 16 байт шифр текс гарах тул 16 д хуваагдна.
     int outSize = ((inputSize - 1) / 16 + 1) * 16;
@@ -24,7 +39,6 @@ unsigned char *AES::EncryptECB(unsigned char inputText[], unsigned char key[], i
     for (unsigned int i = 0; i < outSize; i += 16) {
         EncryptBlock(tempText + i, out + i, key);
     }
-
     delete[] tempText;
     /// Шифрлэсэн текстийг буцаана.
     return out;
@@ -430,17 +444,3 @@ void AES::InvShiftRows(unsigned char **state) {
     ShiftRow(state, 3, Nb - 3);
 }
 
-void AES::printHexArray(unsigned char byteArray[], unsigned int arraySize, string name) {
-    cout <<  name + " hex value is : ";
-    for (int i = 0; i < arraySize; i++) {
-        printf("%02x ", byteArray[i]);
-    }
-    cout << "\n";
-}
-void AES::printBinaryArray(unsigned char byteArray[], unsigned int arraySize, string name) {
-    cout << name + " binary value is : ";
-    for (int i = 0; i < arraySize; i++) {
-        cout << bitset<8>(byteArray[i]).to_string() << " ";
-    }
-    cout << "\n";
-}

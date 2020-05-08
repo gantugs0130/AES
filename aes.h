@@ -7,12 +7,12 @@
 
 class AES {
 private:
-    int Nb; // Шифрлэх өгөгдлийн хэнэд үг байхийг заана үг нь 4 байт AES-д Nb = 4 байдаг.
-    int Nk; // Шифлэлтэнд ашиглагдах түлхүүрийн хэдэн үг хэмжээтэй байхийг заана. Nk = 4, 6, 8 байдаг.
-    int Nr; // Шифрлэлтэнд олон үеээр шифлэдэг бөгөөд түүний хэдэн удаа хийхийг заадаг энэ нь 10 12 14 байдаг.
+    int Nb; /// Шифрлэх өгөгдлийн хэдэн үг байхыг заана үг нь 4 байт. AES-д Nb = 4 байдаг.
+    int Nk; /// Шифлэлтэнд ашиглагдах түлхүүрийн хэдэн үг хэмжээтэй байхийг заана. Nk = 4, 6, 8 байдаг.
+    int Nr; /// Шифрлэлтэнд олон үеээр шифлэдэг бөгөөд түүний хэдэн удаа хийхийг заадаг энэ нь 10 12 14 байдаг.
 
     /*!
-     * Ширлэгдэж буй хүснэгтийн байт бүрийг S_Box хүснэгтийн харгалзах байтаар солих үйлдэл хийнэ.
+     * Ширлэгдэж буй хүснэгтийн байт бүрийг S-Box хүснэгтийн харгалзах байтаар солих үйлдэл хийнэ.
      * @param state шифрлэгдэж буй өгөгдөл буюу 2 хэмжээст хүснэгт байна.
      */
     void SubBytes(unsigned char **state);
@@ -134,27 +134,27 @@ public:
 
     AES(int keyLen = 256);
     /*!
-     *
-     * @param inputText
-     * @param chiperKey
-     * @param inputSize
-     * @return
+     * @param inputText шифрлэх текст байна
+     * @param chiperKey дундын түлхүүр
+     * @param inputSize шифрлэх текстын урт
+     * @return шифрлэсэн өгөгдөл
      */
     unsigned char *EncryptECB(unsigned char inputText[], unsigned char cipherKey[], int inputSize);
     /*!
      *
-     * @param encryptedText
-     * @param chiperKey
-     * @param outSize
-     * @return
+     * @param encryptedText шифрлэгдсэн текст
+     * @param chiperKey дундын түлхүүр
+     * @param outSize шифрлэгдсэн түлхүүрийн урт
+     * @return шифрлэлт тайлсан өгөгдөл
      */
     unsigned char *DecryptECB(unsigned char encryptedText[], unsigned char cipherKey[], int outSize);
 
     void printHexArray(unsigned char a[], unsigned int n, std::string name);
+
     void printBinaryArray(unsigned char a[], unsigned int n, std::string name);
 };
 
-/*
+/**
  * Байтийг байтаар солиход зориулагдсан хүснэгт
  */
 const unsigned char sbox[16][16] = {
@@ -176,11 +176,10 @@ const unsigned char sbox[16][16] = {
         0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68,0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16
 };
 
-/*
+/**
  * Байтийг байтаар солих үйлдлийн эсрэг үйлдэлд зориулагдсан хүснэгт
  */
-const unsigned char inv_sbox[16][16] = {
-        0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38,0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
+const unsigned char inv_sbox[16][16] = {    0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38,0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
         0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87,0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
         0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d,0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e,
         0x08, 0x2e, 0xa1, 0x66, 0x28, 0xd9, 0x24, 0xb2,0x76, 0x5b, 0xa2, 0x49, 0x6d, 0x8b, 0xd1, 0x25,
