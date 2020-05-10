@@ -164,12 +164,12 @@ void analysis() {
     myfile.close();
     ofstream out;
     out.open("../log.txt", ios_base::app);
-    out << " 128 time millsecond = " << time128 * 1000 << "; total count = " << count128 << "; total byte = " << byte128
-        << "; avarage time  = " << time128 * 1000 / count128 << "; avarage byte = " << byte128 / count128 << endl;
-    out << " 192 time millsecond = " << time192 * 1000 << "; total count = " << count192 << "; total byte = " << byte192
-        << "; avarage time = " << time192 * 1000 / count192 << "; avarage byte = " << byte192 / count192 << endl;
-    out << " 256 time millsecond = " << time256 * 1000 << "; total count = " << count256 << "; total byte = " << byte256
-        << "; avarage time = " << time256 * 1000 / count256 << "; avarage byte = " << byte256 / count256 << endl
+    out << " 128 time millisecond = " << time128 * 1000 << "; total count = " << count128 << "; total byte = " << byte128
+        << "; average time  = " << time128 * 1000 / count128 << "; average byte = " << byte128 / count128 << endl;
+    out << " 192 time millisecond = " << time192 * 1000 << "; total count = " << count192 << "; total byte = " << byte192
+        << "; average time = " << time192 * 1000 / count192 << "; average byte = " << byte192 / count192 << endl;
+    out << " 256 time millisecond = " << time256 * 1000 << "; total count = " << count256 << "; total byte = " << byte256
+        << "; average time = " << time256 * 1000 / count256 << "; average byte = " << byte256 / count256 << endl
         << endl;
     cout << time256 * 1000 / count256 / (time128 * 1000 / count128);
     out.close();
